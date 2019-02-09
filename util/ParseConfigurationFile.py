@@ -1,4 +1,5 @@
 # encoding=utf-8
+import re
 from configparser import ConfigParser
 from config.VarConfig import pageElementLocatorPath
 
@@ -6,7 +7,8 @@ from config.VarConfig import pageElementLocatorPath
 class ParseConfigFile(object):
     def __init__(self):
         self.cf = ConfigParser()
-        self.cf.read(pageElementLocatorPath)
+        print("先打印路径",pageElementLocatorPath)
+        self.cf.read(pageElementLocatorPath,encoding="utf-8")
 
     def getItemsSection(self,sectionName):
         # 获取配置文件制定section下的所有option键值对
@@ -29,3 +31,11 @@ if __name__ == '__main__':
     pc = ParseConfigFile()
     print(pc.getItemsSection("126mail_login"))
     print(pc.getOptionValue("126mail_login","loginPage.frame"))
+
+    print(pc.getItemsSection("126mail_homePage"))
+    print(pc.getOptionValue("126mail_homePage","homePage.addressbook"))
+
+    print(pc.getItemsSection("126mail_addContactsPage"))
+    print(pc.getOptionValue("126mail_addContactsPage","addContactsPage.createContactsBtn"))
+
+

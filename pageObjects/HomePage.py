@@ -16,3 +16,8 @@ class HomePage(object):
         except Exception as e:
             raise e
 
+
+if __name__ == '__main__':
+
+
+

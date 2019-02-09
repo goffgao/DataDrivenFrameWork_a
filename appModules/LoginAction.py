@@ -35,6 +35,6 @@ if __name__ == '__main__':
     driver.maximize_window()
     time.sleep(3)
     # 登陆126邮箱
-    LoginAction.login(driver,username = "goffgao1",password ="123456Qw_" )
+    LoginAction.login(driver,username="goffgao1",password ="123456Qw")
     time.sleep(5)
     driver.quit()
