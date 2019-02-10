@@ -57,15 +57,16 @@ class ParseExcel(object):
         # 获取sheet中某一行,返回的是这一行所有的数据内容组成的tuple,
         # 下标从1开始,sheet.rows[1]表示第一行
         try:
+            print("这个是getRow",sheet.row[rowNo - 1])
             return sheet.row[rowNo - 1]
         except Exception as e:
             raise e
 
-    def getColumn(self, sheet, colNo):
+    def getColumn(self,sheet, colNo):
         # 获取sheet中某一列,返回的是这一行所有的数据内容组成的tuple,
         # 下标从1开始,sheet.columns[1]表示第一列
         try:
-            return sheet.row[colNo - 1]
+            return sheet.columns[colNo-1]
         except Exception as e:
             raise e
 
