@@ -17,7 +17,6 @@ class HomePage(object):
             raise e
 
 
-if __name__ == '__main__':
 
 
 

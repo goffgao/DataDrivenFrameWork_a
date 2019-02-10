@@ -29,7 +29,7 @@ class AddContactPerson(object):
                     apb.starContacts().click()
                 if contactPhone:
                     # 非必填
-                    apb.contactPersonMobie().send_keys(contactPhone)
+                    apb.contactPersonMobile().send_keys(contactPhone)
                 if contactComment:
                     apb.contactPersonComment().send_keys(contactComment)
                 apb.saveContactPerson().click()
@@ -39,7 +39,8 @@ class AddContactPerson(object):
             print(traceback.print_exc())
             raise e
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     from appModules.LoginAction import LoginAction
     from selenium import webdriver
     import time

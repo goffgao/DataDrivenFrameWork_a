@@ -44,7 +44,7 @@ class AddressBookPage(object):
         except Exception as e:
             raise e
 
-    def contactPersonMobie(self):
+    def contactPersonMobile(self):
         try:
             locateType,locatorExpression = self.addContactsOptions["addContactsPage.contactPersonMobie".lower()].split(">")
             elementObj =getElement(self.driver,locateType,locatorExpression)
@@ -55,14 +55,15 @@ class AddressBookPage(object):
     def contactPersonComment(self):
         try:
             locateType,locatorExpression = self.addContactsOptions["addContactsPage.contactPersonComment".lower()].split(">")
-            elementObj =getElement(self.driver,locateType,locatorExpression)
+            elementObj = getElement(self.driver,locateType,locatorExpression)
             return elementObj
         except Exception as e:
             raise e
+
     def saveContactPerson(self):
         try:
-            locateType,locatorExpression = self.addContactsOptions["addContactsPage.saveContactPerson".lower()].split(">")
-            elementObj =getElement(self.driver,locateType,locatorExpression)
+            locateType,locatorExpression = self.addContactsOptions["addContactsPage.savecontacePerson".lower()].split(">")
+            elementObj = getElement(self.driver,locateType,locatorExpression)
             return elementObj
         except Exception as e:
             raise e
