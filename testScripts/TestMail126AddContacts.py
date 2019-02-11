@@ -49,7 +49,7 @@ def test126MailAddContacts():
         isExecuteUser = excelObj.getColumn(userSheet,account_isExecute)
         # 获取126账号sheet中的数据别列
         dataBookColumn = excelObj.getColumn(userSheet,account_dataBook)
-        print(u"测试为126邮箱添加联系人执行开始。。。",isExecuteUser,"dataBookColumn>",dataBookColumn)
+        print(u"测试为126邮箱添加联系人执行开始。。。")
         for idx,i in enumerate(isExecuteUser[1:]):
                 # 循环遍历126账号表中的账号，为需要执行的账号添加联系人
             if i.value == "y": # 表示要执行
@@ -143,4 +143,4 @@ def test126MailAddContacts():
 
 if __name__ == '__main__':
     test126MailAddContacts()
-    print(u"登录126邮箱成功")
+    print(u"测试结束")
