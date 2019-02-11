@@ -44,14 +44,15 @@ def test126MailAddContacts():
     try:
         # 根据Excel 文件中sheet名称获取此sheet对象
         userSheet = excelObj.getSheetByName(u"126账号")
+        print("打印userSheet",userSheet)
         # 获取126账号sheet中是否执行列
         isExecuteUser = excelObj.getColumn(userSheet,account_isExecute)
         # 获取126账号sheet中的数据别列
         dataBookColumn = excelObj.getColumn(userSheet,account_dataBook)
-        print(u"测试为126邮箱添加联系人执行开始。。。")
+        print(u"测试为126邮箱添加联系人执行开始。。。",isExecuteUser,"dataBookColumn>",dataBookColumn)
         for idx,i in enumerate(isExecuteUser[1:]):
                 # 循环遍历126账号表中的账号，为需要执行的账号添加联系人
-                if i.value == "y": # 表示要执行
+            if i.value == "y": # 表示要执行
                 # 获取第i行的数据
                 userRow = excelObj.getRow(userSheet,idx +2)
                 # 获取第i行中的用户名
@@ -134,7 +135,7 @@ def test126MailAddContacts():
                                        colsNo=account_testResult,style="red")
                     print(u"用户%s 被设置为忽略执行！" % excelObj.getCellOfValue(userSheet,rowNo=idx +2,colsNo=account_username))
                     driver.quit()
-        except Exception as e:
+    except Exception as e:
         print(u"数据驱动框架主程序发生异常，异常信息为：")
         # 打印异常堆栈信息
         print(traceback.print_exc())

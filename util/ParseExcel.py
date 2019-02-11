@@ -4,6 +4,7 @@ from openpyxl.styles import Border, Side, Font
 import time
 
 
+# 319
 class ParseExcel(object):
 
     def __init__(self):
@@ -25,20 +26,23 @@ class ParseExcel(object):
         # 根据 sheet 名获取该sheet对象
         try:
             sheet = self.workbook.get_sheet_by_name(sheetName)
+            return sheet
         except Exception as e:
             raise e
 
     def getSheetByIndex(self, sheetIndex):
         # 根据 sheet 的索引号获取该sheet对象
         try:
-            sheet = self.workbook.get_sheet_by_name()[sheetIndex]
+            sheetname = self.workbook.get_sheet_names()[sheetIndex]
         except Exception as e:
             raise e
         sheet = self.workbook.get_sheet_by_name(sheetname)
         return sheet
 
+
     def getRowsNumber(self, sheet):
         # 获取sheet 中有数据区域的结束行号
+
         return sheet.max_row
 
     def getColsNumber(self, sheet):
@@ -57,23 +61,24 @@ class ParseExcel(object):
         # 获取sheet中某一行,返回的是这一行所有的数据内容组成的tuple,
         # 下标从1开始,sheet.rows[1]表示第一行
         try:
-            print("这个是getRow",sheet.row[rowNo - 1])
+            print("打印sheet",sheet)
+
             return sheet.row[rowNo - 1]
         except Exception as e:
             raise e
 
-    def getColumn(self,sheet, colNo):
+    def getColumn(self, sheet, colNo):
         # 获取sheet中某一列,返回的是这一行所有的数据内容组成的tuple,
         # 下标从1开始,sheet.columns[1]表示第一列
         try:
-            return sheet.columns[colNo-1]
+            return sheet.columns[colNo - 1]
         except Exception as e:
             raise e
 
     def getCellOfValue(self, sheet, coordinate=None, rowNo=None, colsNo=None):
         # 根据单元格所在的位置索引获取该单元格中的值，下标从1开始，
         # sheet.cell(row=1.column = 1).value,表示Excel中第一行第一列的值
-        if coordinate != None:
+        if coordinate is not None:
             try:
                 return sheet.cell(coordinate=coordinate).value
             except Exception as e:
@@ -138,7 +143,7 @@ class ParseExcel(object):
                 self.workbook.save(self.excelFile)
             except Exception as e:
                 raise e
-        elif coordiate == None and rowNo is not None and colsNo is not None:
+        elif coordinate==None and rowNo is not None and colsNo is not None:
             try:
                 sheet.cell(row=rowNo, column=colsNo).value = currentTime
                 self.workbook.save(self.excelFile)
@@ -148,20 +153,27 @@ class ParseExcel(object):
             raise Exception("Insufficient Coordinates of cell!")
 
 
-if __name__ == '__mail__':
+
+
+
+if __name__ == '__main__':
     pe = ParseExcel()
     # 测试所有的Excel文件“126邮箱联系人.xlsx”请自行创建
-    pe.loadWorkBook(u"D:\\DataDrivenFrameWork\testData\\126邮箱联系人.xlsx")
+    pe.loadWorkBook(u"D:\\DataDrivenFrameWork_a\\testData\\126邮箱联系人.xlsx")
     print("通过名称获取sheet对象的名字：", pe.getSheetByName(u"联系人").title)
     print("通过index序号获取sheet对象的名字：", pe.getSheetByIndex(0).title)
     sheet = pe.getSheetByIndex(0)
-    print(type(sheet))
-    print(pe.getRowsNumber(sheet))  # 获取最大行号
-    print(pe.getColsNumber(sheet))  # 获取最大列号
-    rows = pe.getRow(sheet, 1)  # 获取第一行
-    for i in rows:
-        print(i.value)
-    # 获取第一行第一列单元格内容
+    print("sheet",sheet)
+    print("list",list(sheet))
+    print("type",type(sheet))
+
+    print("# 获取最大行号",pe.getRowsNumber(sheet))
+    print("# 获取最大列号",pe.getColsNumber(sheet))
+    rows = pe.getRow(sheet,1) # 获取第一行
+    #
+    # for i in rows:
+    #     print(i.value)
+    # # 获取第一行第一列单元格内容
     print(pe.getCellOfObject(sheet, rowNo=1, colsNo=1))
-    pe.writeCell(sheet, u'我爱祖国', rowNo=10, colsNo=10)
-    pe.writeCellCurrentTime(sheet, rowNo=10, colsNo=11)
+    # pe.writeCell(sheet, u'我爱祖国', rowNo=10, colsNo=10)
+    # pe.writeCellCurrentTime(sheet, rowNo=10, colsNo=11)
