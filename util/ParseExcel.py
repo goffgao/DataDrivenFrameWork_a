@@ -39,7 +39,6 @@ class ParseExcel(object):
         sheet = self.workbook.get_sheet_by_name(sheetname)
         return sheet
 
-
     def getRowsNumber(self, sheet):
         # 获取sheet 中有数据区域的结束行号
 
@@ -59,19 +58,16 @@ class ParseExcel(object):
 
     def getRow(self, sheet, rowNo):
         # 获取sheet中某一行,返回的是这一行所有的数据内容组成的tuple,
-        # 下标从1开始,sheet.rows[1]表示第一行
-        try:
-            print("打印sheet",sheet)
+        # 下标从1开始,sheet.rows[1]表示第一行 （由于python3中返回sheet不是字典)
 
-            return sheet.row[rowNo - 1]
-        except Exception as e:
-            raise e
+        return list(sheet.rows)[rowNo-1]
+
 
     def getColumn(self, sheet, colNo):
         # 获取sheet中某一列,返回的是这一行所有的数据内容组成的tuple,
         # 下标从1开始,sheet.columns[1]表示第一列
         try:
-            return sheet.columns[colNo - 1]
+            return list(sheet.columns)[colNo - 1]
         except Exception as e:
             raise e
 
@@ -122,7 +118,7 @@ class ParseExcel(object):
             except Exception as e:
                 raise e
 
-        elif coordinate == None and rowNo is not None and colsNO is not None:
+        elif coordinate == None and rowNo is not None and colsNo is not None:
             try:
                 sheet.cell(row=rowNo, column=colsNo).value = content
                 if style:
@@ -163,17 +159,14 @@ if __name__ == '__main__':
     print("通过名称获取sheet对象的名字：", pe.getSheetByName(u"联系人").title)
     print("通过index序号获取sheet对象的名字：", pe.getSheetByIndex(0).title)
     sheet = pe.getSheetByIndex(0)
-    print("sheet",sheet)
-    print("list",list(sheet))
-    print("type",type(sheet))
-
+    print(type(sheet))
     print("# 获取最大行号",pe.getRowsNumber(sheet))
     print("# 获取最大列号",pe.getColsNumber(sheet))
     rows = pe.getRow(sheet,1) # 获取第一行
-    #
-    # for i in rows:
-    #     print(i.value)
-    # # 获取第一行第一列单元格内容
-    print(pe.getCellOfObject(sheet, rowNo=1, colsNo=1))
-    # pe.writeCell(sheet, u'我爱祖国', rowNo=10, colsNo=10)
-    # pe.writeCellCurrentTime(sheet, rowNo=10, colsNo=11)
+    print("# 获取第一行",pe.getRow(sheet,1))
+    for i in rows:
+        print(i.value)
+    # 获取第一行第一列单元格内容"
+    print("1",pe.getCellOfObject(sheet, rowNo=1, colsNo=1))
+    print("2",pe.writeCell(sheet, u'我爱祖国', rowNo=10, colsNo=10))
+    print("3",pe.writeCellCurrentTime(sheet, rowNo=10, colsNo=11))

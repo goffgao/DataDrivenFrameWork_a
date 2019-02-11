@@ -44,7 +44,7 @@ def test126MailAddContacts():
     try:
         # 根据Excel 文件中sheet名称获取此sheet对象
         userSheet = excelObj.getSheetByName(u"126账号")
-        print("打印userSheet",userSheet)
+        print("1.打印userSheet",userSheet)
         # 获取126账号sheet中是否执行列
         isExecuteUser = excelObj.getColumn(userSheet,account_isExecute)
         # 获取126账号sheet中的数据别列
@@ -139,6 +139,7 @@ def test126MailAddContacts():
         print(u"数据驱动框架主程序发生异常，异常信息为：")
         # 打印异常堆栈信息
         print(traceback.print_exc())
+
 
 if __name__ == '__main__':
     test126MailAddContacts()
