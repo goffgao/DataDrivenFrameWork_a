@@ -27,9 +27,9 @@ class AddContactPerson(object):
                 if isStar == u"是":
                    # 非必填项
                     apb.starContacts().click()
-                if contactPhone:
-                    # 非必填
-                    apb.contactPersonMobile().send_keys(contactPhone)
+                # if contactPhone:
+                #     # 非必填
+                #     apb.contactPersonMobile().send_keys(contactPhone)
                 if contactComment:
                     apb.contactPersonComment().send_keys(contactComment)
                 apb.saveContactPerson().click()

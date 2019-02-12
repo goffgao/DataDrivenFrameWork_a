@@ -29,6 +29,4 @@ if __name__ == '__main__':
     driver = webdriver.Firefox()
     driver.get("https://beta.en.vb.vbio.top/")
     getElement(driver, "id", "login-btn").click()
-
-    # 打印页面对象的标签名
     driver.quit()

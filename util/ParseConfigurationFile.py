@@ -7,7 +7,6 @@ from config.VarConfig import pageElementLocatorPath
 class ParseConfigFile(object):
     def __init__(self):
         self.cf = ConfigParser()
-        print("先打印路径",pageElementLocatorPath)
         self.cf.read(pageElementLocatorPath,encoding="utf-8")
 
     def getItemsSection(self,sectionName):
