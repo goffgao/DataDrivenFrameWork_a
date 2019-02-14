@@ -116,12 +116,11 @@ def test126MailAddContacts():
                         except AssertionError as e:
                             # 断言失败，在联系人工作表中写入添加联系人测试失败信息。
                             excelObj.writeCell(dataSheet, u"error错误", rowNo=id + 2,colsNo=contacts_testResult, style="red")
-                            print("打印e",e)
-                    else:
-                        # 断言成功，写入添加联系人成功信息
-                        excelObj.writeCell(dataSheet, u"pass通过", rowNo=id + 2,colsNo=contacts_testResult, style="green")
-                        contactNum += 1
-                        print("contactNum = %s, isExecuteNum = %s" % (contactNum, isExecuteNum))
+                        else:
+                            # 断言成功，写入添加联系人成功信息
+                            excelObj.writeCell(dataSheet, u"pass通过", rowNo=id + 2,colsNo=contacts_testResult, style="green")
+                            contactNum += 1
+                    print("contactNum = %s, isExecuteNum = %s" % (contactNum, isExecuteNum))
 
                     if contactNum == isExecuteNum:
                         # 如果成功添加的联系人数与需要添加的联系人数相等，
