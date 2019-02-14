@@ -13,6 +13,8 @@ class AddContactPerson(object):
         try:
             #创建主页实例对象
             hp = HomePage(driver)
+            time.sleep(3)
+
             # 单击通讯录链接
             hp.addressLink().click()
             time.sleep(3)
@@ -22,17 +24,24 @@ class AddContactPerson(object):
             if contactName:
                 #非必填项
                 apb.contactPersonName().send_keys(contactName)
+            if contactEmail:
                 #必填项
                 apb.contactPersonEmail().send_keys(contactEmail)
-                if isStar == u"是":
-                   # 非必填项
-                    apb.starContacts().click()
-                # if contactPhone:
-                #     # 非必填
-                #     apb.contactPersonMobile().send_keys(contactPhone)
-                if contactComment:
-                    apb.contactPersonComment().send_keys(contactComment)
-                apb.saveContactPerson().click()
+
+            if isStar == u"是":
+                # 非必填项
+                time.sleep(3)
+                apb.starContacts().click()
+
+            if contactPhone:
+                # 非必填项
+                apb.contactPersonMobile().send_keys(contactPhone)
+            if contactComment:
+                time.sleep(3)
+                print("输入comment")
+                apb.contactPersonComment().send_keys(contactComment)
+            # 点击保存
+            apb.saveContactPerson().click()
 
         except Exception as e:
                 # 打印堆栈异常信息
@@ -50,8 +59,9 @@ if __name__ == '__main__':
     # driver.maximize_window()
     time.sleep(5)
     LoginAction.login(driver,"goffgao1","123456Qw")
-    time.sleep(5)
-    AddContactPerson.add(driver,u"张三","zs@qq.com",u"是","","")
+    time.sleep(15)
+    AddContactPerson.add(driver,u"张三","zs@qq.com",u"是","123","内容")
     time.sleep(3)
     assert u"张三" in driver.page_source
+    print("完成测试")
     driver.quit()

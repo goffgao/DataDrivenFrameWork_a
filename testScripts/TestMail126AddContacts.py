@@ -16,7 +16,6 @@ from time import sleep
 
 # python3
 import importlib, sys
-
 importlib.reload(sys)
 
 # 创建解析Excel对象
@@ -36,6 +35,7 @@ def LaunchBrowser():
     chrome_options.add_argument('--start-maximized')
     # 启动带有自定义设置的Chrome浏览器
     driver = webdriver.Chrome()
+    driver.maximize_window()
     # 访问126邮箱首页
     driver.get("https://mail.126.com/")
     sleep(3)
@@ -43,11 +43,9 @@ def LaunchBrowser():
 
 
 def test126MailAddContacts():
-    global driver
     try:
         # 根据Excel 文件中sheet名称获取此sheet对象
         userSheet = excelObj.getSheetByName(u"126账号")
-        print("1.打印userSheet", userSheet)
         # 获取126账号sheet中是否执行列
         isExecuteUser = excelObj.getColumn(userSheet, account_isExecute)
         # 获取126账号sheet中的数据别列
@@ -80,7 +78,7 @@ def test126MailAddContacts():
                 contactNum = 0  # 记录添加成功联系人个数
                 isExecuteNum = 0  # 记录需要执行联系人个数
                 for id, data in enumerate(isExecuteData[1:]):
-                    print("id是", id)
+                    print("id是", id,"data",data)
                     # 循环遍历是否执行添加联系人列，
                     # 如果被设置为添加，则进行联系人添加操作
                     if data.value == "y":
@@ -102,44 +100,38 @@ def test126MailAddContacts():
                         contactPersonComment = rowContent[contacts_contactPersonComment - 1].value
                         # 添加联系人成功后，断言的关键字
                         assertKeyWord = rowContent[contacts_assertKeyWords - 1].value
+                        print("验证数据类型", type(assertKeyWord))
                         print(contactPersonName, contactPersonEmail, assertKeyWord)
                         print(contactPersonPhone, contactPersonComment, isStar)
                         # 执行新建联系人操作
-                        AddContactPerson.add(driver,
-                                             contactPersonName,
-                                             contactPersonEmail,
-                                             isStar,
-                                             contactPersonPhone,
-                                             contactPersonComment)
+                        AddContactPerson.add(driver,contactPersonName,contactPersonEmail,isStar,contactPersonPhone,contactPersonComment)
                         sleep(1)
                         # 在联系人工作表中写入添加联系人执行时间
-                        print("打印dataSheet", dataSheet,"colsNo",contacts_runTime)
-
                         excelObj.writeCellCurrentTime(dataSheet, rowNo=id + 2, colsNo=contacts_runTime)
                         try:
                             # 断言给定的关键字是否出现在页面中
+                            sleep(2)
                             assert assertKeyWord in driver.page_source
+                            sleep(2)
                         except AssertionError as e:
                             # 断言失败，在联系人工作表中写入添加联系人测试失败信息。
-                            excelObj.writeCell(dataSheet, "faild", rowNo=id + 2,
-                                               colsNo=contacts_testResult, style="red")
-                        else:
-                            # 断言成功，写入添加联系人成功信息
-                            excelObj.writeCell(dataSheet, "pass", rowNo=id + 2,
-                                               colsNo=contacts_testResult, style="green")
-                            contactNum += 1
-                print("contactNum = %s, isExecuteNum = %s" % (contactNum, isExecuteNum))
+                            excelObj.writeCell(dataSheet, u"error错误", rowNo=id + 2,colsNo=contacts_testResult, style="red")
+                            print("打印e",e)
+                    else:
+                        # 断言成功，写入添加联系人成功信息
+                        excelObj.writeCell(dataSheet, u"pass通过", rowNo=id + 2,colsNo=contacts_testResult, style="green")
+                        contactNum += 1
+                        print("contactNum = %s, isExecuteNum = %s" % (contactNum, isExecuteNum))
 
-                if contactNum == isExecuteNum:
-                    # 如果成功添加的联系人数与需要添加的联系人数相等，
-                    # 说明给第i个用户添加联系人测试用例执行成功
-                    # 在126账号工作表中写入成功信息，否则写入失败信息
-                    excelObj.writeCell(userSheet, "pass", rowNo=idx + 2,
-                                       colsNo=account_testResult, style="green")
-                    print(u"为用户%s 添加 %d 个联系人，测试通过！" % (username, contactNum))
-                else:
-                    excelObj.writeCell(userSheet, "faild", rowNo=idx + 2,
-                                       colsNo=account_testResult, style="red")
+                    if contactNum == isExecuteNum:
+                        # 如果成功添加的联系人数与需要添加的联系人数相等，
+                        # 说明给第i个用户添加联系人测试用例执行成功
+                        # 在126账号工作表中写入成功信息，否则写入失败信息
+                        excelObj.writeCell(userSheet, "pass通过", rowNo=idx + 2,colsNo=account_testResult, style="green")
+                        print(u"为用户%s 添加 %d 个联系人，测试通过！" % (username, contactNum))
+                    else:
+                        print("写入失败",data)
+                        excelObj.writeCell(userSheet, "faild失败", rowNo=idx + 2,colsNo=account_testResult, style="red")
             else:
                 print(u"用户%s 被设置为忽略执行！" % excelObj.getCellOfValue(userSheet, rowNo=idx + 2, colsNo=account_username))
                 driver.quit()

@@ -123,7 +123,6 @@ class ParseExcel(object):
         elif coordinate == None and rowNo is not None and colsNo is not None:
             try:
                 sheet.cell(row=rowNo, column=colsNo).value = content
-                print("content",content)
 
                 if style:
                     sheet.cell(row=rowNo, column=colsNo).font = Font(color=self.RGBDict[style])
@@ -137,7 +136,6 @@ class ParseExcel(object):
         now = int(time.time())  # 显示为时间戳
         timeArray = time.localtime(now)
         currentTime = time.strftime("%Y-%m-%d %H: %M:%S", timeArray)
-        print("打印时间",currentTime,"打印coordinate",coordinate)
         if coordinate is not None:
             try:
                 time.sleep(3)
@@ -148,7 +146,6 @@ class ParseExcel(object):
 
         elif coordinate == None and rowNo is not None and colsNo is not None:
             try:
-
                 sheet.cell(row=rowNo, column=colsNo).value = currentTime
                 self.workbook.save(self.excelFile)
 
